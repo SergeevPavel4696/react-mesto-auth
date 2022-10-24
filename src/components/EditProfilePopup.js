@@ -19,6 +19,7 @@ export default function EditProfilePopup(props) {
         setIsValidAbout(true);
         setValidNameError("");
         setValidAboutError("");
+        // eslint-disable-next-line
     }, [props.isOpen]);
 
     function handleChangeName(evt) {

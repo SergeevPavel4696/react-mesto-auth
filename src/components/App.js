@@ -217,6 +217,7 @@ function App() {
 
     useEffect(() => {
         handleTokenCheck();
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
