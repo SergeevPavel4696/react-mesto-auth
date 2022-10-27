@@ -1,9 +1,7 @@
 class API {
-    constructor(cohort, token) {
-        this._url = "https://mesto.nomoreparties.co/v1/";
-        this._cohort = cohort;
-        this._token = token;
-        this._headers = {authorization: this._token, 'Content-Type': 'application/json'};
+    constructor() {
+        this._url = "http://api.sergeevpavel.mesto.nomoredomains.icu/";
+        this._headers = {'Content-Type': 'application/json'};
     }
 
     _checkResponse(response) {
@@ -15,19 +13,19 @@ class API {
     }
 
     initializeProfile() {
-        return fetch(`${this._url}${this._cohort}/users/me`, {
+        return fetch(`${this._url}/users/me`, {
             headers: this._headers
         }).then(response => this._checkResponse(response));
     }
 
     initialCards() {
-        return fetch(`${this._url}${this._cohort}/cards`, {
+        return fetch(`${this._url}/cards`, {
             headers: this._headers
         }).then(response => this._checkResponse(response));
     }
 
     addCard(formValues) {
-        return fetch(`${this._url}${this._cohort}/cards`, {
+        return fetch(`${this._url}/cards`, {
             method: 'POST',
             headers: this._headers,
             body: JSON.stringify(formValues)
@@ -35,21 +33,21 @@ class API {
     }
 
     deleteCard(id) {
-        return fetch(`${this._url}${this._cohort}/cards/${id}`, {
+        return fetch(`${this._url}/cards/${id}`, {
             method: 'DELETE',
             headers: this._headers
         }).then(response => this._checkResponse(response));
     }
 
     toggleLike(id, isLiked) {
-        return fetch(`${this._url}${this._cohort}/cards/${id}/likes`, {
+        return fetch(`${this._url}/cards/${id}/likes`, {
             method: isLiked ? 'DELETE' : 'PUT',
             headers: this._headers
         }).then(response => this._checkResponse(response));
     }
 
     updateUserInfo(formValues) {
-        return fetch(`${this._url}${this._cohort}/users/me`, {
+        return fetch(`${this._url}}/users/me`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify(formValues)
@@ -57,7 +55,7 @@ class API {
     }
 
     updateUserAvatar(avatar) {
-        return fetch(`${this._url}${this._cohort}/users/me/avatar`, {
+        return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify(avatar)
@@ -65,4 +63,4 @@ class API {
     }
 }
 
-export const api = new API("cohort-45", "4747a9b7-656d-443b-a639-e96059ef3169");
+export const api = new API();
