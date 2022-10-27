@@ -130,22 +130,19 @@ function App() {
     }
 
     function handleTokenCheck() {
-        if (localStorage.getItem("token")) {
-            const token = localStorage.getItem("token");
-            auth.checkToken(token)
-                .then(response => {
-                    if (response.data) {
-                        setUserEmail(response.data.email);
-                        setLoggedIn(true);
-                        history.push("/react-mesto-auth/");
-                    }
-                })
-                .catch(() => {
-                    setUserEmail("");
-                    setLoggedIn(false);
-                    history.push("/react-mesto-auth/sign-in");
-                });
-        }
+        auth.checkToken()
+            .then(response => {
+                if (response.data) {
+                    setUserEmail(response.data.email);
+                    setLoggedIn(true);
+                    history.push("/react-mesto-auth/");
+                }
+            })
+            .catch(() => {
+                setUserEmail("");
+                setLoggedIn(false);
+                history.push("/react-mesto-auth/sign-in");
+            });
     }
 
     function handleSignText() {
