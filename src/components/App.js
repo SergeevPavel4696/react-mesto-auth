@@ -130,19 +130,22 @@ function App() {
     }
 
     function handleTokenCheck() {
-        auth.checkToken()
-            .then(response => {
-                if (response.data) {
-                    setUserEmail(response.data.email);
-                    setLoggedIn(true);
-                    history.push("/");
-                }
-            })
-            .catch(() => {
-                setUserEmail("");
-                setLoggedIn(false);
-                history.push("/sign-in");
-            });
+        if (localStorage.getItem("token")) {
+            const token = localStorage.getItem("token");
+            auth.checkToken(token)
+                .then(response => {
+                    if (response.data) {
+                        setUserEmail(response.data.email);
+                        setLoggedIn(true);
+                        history.push("/");
+                    }
+                })
+                .catch(() => {
+                    setUserEmail("");
+                    setLoggedIn(false);
+                    history.push("/sign-in");
+                });
+        }
     }
 
     function handleSignText() {

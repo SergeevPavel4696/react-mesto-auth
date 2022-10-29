@@ -1,6 +1,6 @@
 class Auth {
     constructor() {
-        this._url = "http://api.sergeevpavel.mesto.nomoredomains.icu";
+        this._url = "https://auth.nomoreparties.co";
     }
 
     _checkResponse(response) {
@@ -28,10 +28,11 @@ class Auth {
         }).then(response => this._checkResponse(response));
     };
 
-    checkToken() {
+    checkToken(token) {
         return fetch(`${this._url}/users/me`, {
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             }
         }).then(response => this._checkResponse(response));
     };
