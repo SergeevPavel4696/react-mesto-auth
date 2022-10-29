@@ -1,6 +1,6 @@
 class Auth {
     constructor() {
-        this._url = "http://api.sergeevpavel.mesto.nomoredomains.icu/";
+        this._url = "http://api.sergeevpavel.mesto.nomoredomains.icu";
     }
 
     _checkResponse(response) {
