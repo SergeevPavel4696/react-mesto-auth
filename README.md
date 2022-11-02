@@ -6,4 +6,4 @@
 
 Успехов!
 
-(ссылка на проект)[https://sergeevpavel4696.github.io/react-mesto-auth/]
+[ссылка на проект](https://sergeevpavel4696.github.io/react-mesto-auth/)
