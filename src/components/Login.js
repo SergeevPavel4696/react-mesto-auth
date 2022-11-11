@@ -8,6 +8,8 @@ function Login(props) {
     const [isValidPassword, setIsValidPassword] = useState(false);
     const [validEmailError, setValidEmailError] = useState("");
     const [validPasswordError, setValidPasswordError] = useState("");
+    // const home = "/react-mesto-auth";
+    const home = "";
 
     useEffect(() => {
         setEmail("");
@@ -75,7 +77,7 @@ function Login(props) {
             </button>
             <p className="form__switch-login-register">
                 Ещё не зарегистрированы?
-                <Link className="form__switch-login-register" to="/sign-up"> Регистрация</Link>
+                <Link className="form__switch-login-register" to={`${home}/sign-up`}> Регистрация</Link>
             </p>
         </form>
     );

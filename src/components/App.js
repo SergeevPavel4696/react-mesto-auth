@@ -32,6 +32,9 @@ function App() {
     const [isLoadSignError, setIsLoadSignError] = useState(false);
     const history = useHistory();
 
+    // const home = "/react-mesto-auth";
+    const home = "";
+
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true);
     }
@@ -130,25 +133,28 @@ function App() {
     }
 
     function handleTokenCheck() {
-        auth.checkToken()
-            .then(response => {
-                if (response.data) {
-                    setUserEmail(response.data.email);
-                    setLoggedIn(true);
-                    history.push("/");
-                }
-            })
-            .catch(() => {
-                setUserEmail("");
-                setLoggedIn(false);
-                history.push("/sign-in");
-            });
+        if (localStorage.getItem("token")) {
+            const token = localStorage.getItem("token");
+            auth.checkToken(token)
+                .then(response => {
+                    if (response.data) {
+                        setUserEmail(response.data.email);
+                        setLoggedIn(true);
+                        history.push(home);
+                    }
+                })
+                .catch(() => {
+                    setUserEmail("");
+                    setLoggedIn(false);
+                    history.push(`${home}/sign-in`);
+                });
+        }
     }
 
     function handleSignText() {
-        if (window.location.pathname === "/sign-in") {
+        if (window.location.pathname === `${home}/sign-in`) {
             setSignText("Регистрация")
-        } else if (window.location.pathname === "/sign-up") {
+        } else if (window.location.pathname === `${home}/sign-up`) {
             setSignText("Вход")
         } else {
             setSignText("Выйти")
@@ -178,7 +184,7 @@ function App() {
                     localStorage.setItem("token", response.token);
                     setLoggedIn(true);
                     handleTokenCheck();
-                    history.push('/');
+                    history.push(home);
                 }
             })
             .catch(err => console.log(err));
@@ -188,16 +194,16 @@ function App() {
         localStorage.removeItem("token")
         setLoggedIn(false);
         setUserEmail("");
-        if (window.location.pathname === "/sign-in") {
-            history.push("/sign-up");
+        if (window.location.pathname === `${home}/sign-in`) {
+            history.push(`${home}/sign-up`);
         } else {
-            history.push("/sign-in");
+            history.push(`${home}/sign-in`);
         }
     }
 
     function closeLoadSignPopup() {
         setIsLoadSign(false);
-        history.push('/sign-in');
+        history.push(`${home}/sign-in`);
     }
 
 
@@ -229,10 +235,10 @@ function App() {
                     email={userEmail}
                     onSign={handleSign}
                 />
-                <Route path="/sign-in">
+                <Route path={`${home}/sign-in`}>
                     <Login onLogin={onLogin}/>
                 </Route>
-                <Route path="/sign-up">
+                <Route path={`${home}/sign-up`}>
                     <Register onRegister={onRegister}/>
                     <InfoTooltip
                         isOpen={isLoadSign}
