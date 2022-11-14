@@ -1,6 +1,6 @@
 class API {
     constructor() {
-        this._url = "http://api.mesta.nomoredomains.icu";
+        this._url = "https://api.mesta.nomoredomains.icu";
         this._headers = {'Content-Type': 'application/json'};
         this._credentials = 'include';
     }
