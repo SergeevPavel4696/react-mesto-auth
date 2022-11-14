@@ -79,24 +79,14 @@ function App() {
 
     function handleUpdateUser(userInfo, buttonText, buttonTextInProcess, setButtonText) {
         handleResponse(api.updateUserInfo(userInfo)
-            .then(res => {
-                    setCurrentUser(res);
-                }
-            )
-            .catch(err => {
-                console.log(err);
-            }), buttonText, buttonTextInProcess, setButtonText);
+            .then(setCurrentUser)
+            .catch(console.log), buttonText, buttonTextInProcess, setButtonText);
     }
 
     function handleUpdateAvatar(avatar, buttonText, buttonTextInProcess, setButtonText) {
         handleResponse(api.updateUserAvatar(avatar)
-            .then(res => {
-                    setCurrentUser(res);
-                }
-            )
-            .catch(err => {
-                console.log(err);
-            }), buttonText, buttonTextInProcess, setButtonText);
+            .then(setCurrentUser)
+            .catch(console.log), buttonText, buttonTextInProcess, setButtonText);
     }
 
     function handleLikeCard(card) {
@@ -105,20 +95,14 @@ function App() {
             .then(newCard => {
                 setCards(state => state.map(c => c._id === card._id ? newCard : c));
             })
-            .catch(err => {
-                console.log(err);
-            });
+            .catch(console.log);
 
     }
 
     function handleDeleteCard(id) {
         api.deleteCard(id)
-            .then(
-                setCards(state => state.filter(c => c._id !== id))
-            )
-            .catch(err => {
-                console.log(err);
-            });
+            .then(setCards(state => state.filter(c => c._id !== id)))
+            .catch(console.log);
     }
 
     function handleAddPlace(card, buttonText, buttonTextInProcess, setButtonText) {
@@ -127,24 +111,22 @@ function App() {
                     setCards([newCard, ...cards]);
                 }
             )
-            .catch(err => {
-                console.log(err);
-            }), buttonText, buttonTextInProcess, setButtonText);
+            .catch(console.log), buttonText, buttonTextInProcess, setButtonText);
     }
 
     function handleTokenCheck() {
+        const token = localStorage.getItem("token");
         if (localStorage.getItem("token")) {
-            const token = localStorage.getItem("token");
             auth.checkToken(token)
-                .then(response => {
-                    if (response.data) {
-                        setUserEmail(response.data.email);
+                .then(res => {
+                    if (res) {
+                        setUserEmail(res.email);
                         setLoggedIn(true);
                         history.push(home);
                     }
                 })
                 .catch(() => {
-                    setUserEmail("");
+                    setUserEmail("qwerty");
                     setLoggedIn(false);
                     history.push(`${home}/sign-in`);
                 });
@@ -163,8 +145,8 @@ function App() {
 
     function onRegister({email, password}) {
         auth.register(email, password)
-            .then(response => {
-                if (response.data) {
+            .then(res => {
+                if (res.data) {
                     setIsLoadSignError(false);
                 }
             })
@@ -179,15 +161,15 @@ function App() {
 
     function onLogin({email, password}) {
         auth.authorize(email, password)
-            .then(response => {
-                if (response.token) {
-                    localStorage.setItem("token", response.token);
+            .then(res => {
+                if (res.token) {
+                    localStorage.setItem("token", res.token);
                     setLoggedIn(true);
                     handleTokenCheck();
                     history.push(home);
                 }
             })
-            .catch(err => console.log(err));
+            .catch(console.log);
     }
 
     function handleSign() {
@@ -213,15 +195,13 @@ function App() {
                 setCurrentUser(info);
                 setCards(cards);
             })
-            .catch(err => {
-                console.log(err);
-            });
-    }, [setCurrentUser])
+            .catch(console.log);
+    }, [setCurrentUser, setCards])
 
     useEffect(() => {
         handleTokenCheck();
         // eslint-disable-next-line
-    }, []);
+    }, [loggedIn, history]);
 
     useEffect(() => {
         handleSignText();
